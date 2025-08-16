@@ -1,0 +1,8 @@
+{
+  "label": "Tauri",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Tauri documentation covering basic commands, folder structure, and development workflow."
+  }
+}
