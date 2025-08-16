@@ -7,6 +7,8 @@ Essential commands for Tauri development workflow.
 ### Start Development Server
 ```bash
 npm run tauri dev
+# or alternatively
+cargo tauri dev
 ```
 Starts the development server with hot reload enabled. This command:
 - Builds the frontend in development mode
@@ -14,9 +16,13 @@ Starts the development server with hot reload enabled. This command:
 - Enables hot reload for both frontend and backend changes
 - Shows console logs and error messages
 
+**Note**: `npm run tauri dev` and `cargo tauri dev` do the same thing, but npm version uses the locally installed Tauri CLI while cargo version uses globally installed Tauri CLI.
+
 ### Build for Production
 ```bash
 npm run tauri build
+# or alternatively
+cargo tauri build
 ```
 Creates a production-ready build of your Tauri app:
 - Optimizes frontend assets
@@ -76,6 +82,8 @@ npm run tauri build --target x86_64-unknown-linux-gnu
 ### Check Tauri Info
 ```bash
 npm run tauri info
+# or alternatively
+cargo tauri info
 ```
 Displays:
 - Tauri version
@@ -91,10 +99,62 @@ npm run tauri dev --verbose
 ```
 Shows detailed logs for debugging configuration issues.
 
+### Check Rust Code
+```bash
+# Check Rust code for compilation errors
+cargo check --manifest-path src-tauri/Cargo.toml
+
+# Check with verbose output
+cargo check --manifest-path src-tauri/Cargo.toml --verbose
+
+# Check specific features
+cargo check --manifest-path src-tauri/Cargo.toml --features "your-feature"
+```
+
 ### Check Rust Setup
 ```bash
 rustc --version
 cargo --version
+```
+
+### TypeScript Error Checking
+```bash
+# Check TypeScript errors (if using TypeScript)
+npx tsc --noEmit
+
+# Check with specific config
+npx tsc --noEmit --project tsconfig.json
+
+# Watch mode for continuous checking
+npx tsc --noEmit --watch
+```
+
+### Linting and Code Quality
+```bash
+# ESLint for JavaScript/TypeScript
+npm run lint
+# or
+npx eslint src/
+
+# Fix auto-fixable issues
+npm run lint:fix
+# or
+npx eslint src/ --fix
+
+# Prettier for code formatting
+npm run format
+# or
+npx prettier --write src/
+
+# Check formatting without fixing
+npx prettier --check src/
+
+# Rust formatting and linting
+cargo fmt --manifest-path src-tauri/Cargo.toml
+cargo clippy --manifest-path src-tauri/Cargo.toml
+
+# Rust clippy with strict lints
+cargo clippy --manifest-path src-tauri/Cargo.toml -- -D warnings
 ```
 
 ### Verify Prerequisites
@@ -109,6 +169,37 @@ rustup update
 rustup target add x86_64-pc-windows-msvc  # Windows
 rustup target add x86_64-apple-darwin     # macOS Intel
 rustup target add aarch64-apple-darwin    # macOS M1/M2
+```
+
+## Pre-Build Checks
+
+### Complete Code Validation
+```bash
+# Run all checks before building
+# 1. Check TypeScript
+npx tsc --noEmit
+
+# 2. Check frontend linting
+npm run lint
+
+# 3. Check Rust code
+cargo check --manifest-path src-tauri/Cargo.toml
+
+# 4. Check Rust linting
+cargo clippy --manifest-path src-tauri/Cargo.toml -- -D warnings
+
+# 5. Check formatting
+npx prettier --check src/
+cargo fmt --manifest-path src-tauri/Cargo.toml --check
+```
+
+### Quick Health Check
+```bash
+# One-liner for basic validation (add to package.json scripts)
+npm run check:all
+
+# Example package.json script:
+# "check:all": "tsc --noEmit && eslint src/ && cargo check --manifest-path src-tauri/Cargo.toml"
 ```
 
 ## Common Troubleshooting Commands
